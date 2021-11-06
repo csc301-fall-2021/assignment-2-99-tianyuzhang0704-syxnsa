@@ -8,6 +8,15 @@
 		<version>2.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<groupId>com.yiibai</groupId>
+    <artifactId>MongoDBJDBC</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>MongoDBJDBC</name>
+    <url>http://maven.apache.org</url>
+
 	<groupId>com.example</groupId>
 	<artifactId>a2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -39,6 +48,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.4.2</version>
+        </dependency>
 	</dependencies>
 
 	<build>
