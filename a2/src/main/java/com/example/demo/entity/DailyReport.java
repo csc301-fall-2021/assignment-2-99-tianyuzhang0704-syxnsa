@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.entity;
 
 public class DailyReport {
 	public String Province_State;
