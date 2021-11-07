@@ -1,12 +1,29 @@
 package com.example.demo;
 
+import com.mongodb.BasicDBObject;
 /**
  * Hello world!
  *
  */
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Projections;
+
+import static com.mongodb.client.model.Filters.eq;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TestMongodb {
 
@@ -20,12 +37,57 @@ public class TestMongodb {
 
             // Now connect to your databases
             MongoDatabase mgdb = mongoClient.getDatabase("covid19");
+            MongoCollection<Document> dailycollection = mgdb.getCollection("dailyreport");
 
             System.out.println("Connect to database successfully!");
             System.out.println("MongoDatabase inof is : "+mgdb.getName());
             // If MongoDB in secure mode, authentication is required.
             // boolean auth = db.authenticate(myUserName, myPassword);
             // System.out.println("Authentication: "+auth);
+            BasicDBObject query = new BasicDBObject();
+            query.put("Province_State","Alabama");
+            MongoCursor<Document> cursor = dailycollection.find(query).skip(0).iterator();
+            
+            List<String> resultList = new LinkedList<>();
+            List<String> tableList = new ArrayList<>();
+            while (cursor.hasNext()) {
+                String  jsonString = new String();
+                jsonString = cursor.next().toJson();
+                int length = jsonString.length();
+                jsonString = "[{" + jsonString.substring(jsonString.indexOf(",") + 1, length) + "]";
+                System.out.println(jsonString);
+
+                JSONArray jsonArray = new JSONArray(jsonString);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                try {
+                    if(tableList.size() == 0) {
+                        StringBuilder stringKey = new StringBuilder();
+                        Iterator iterator = jsonObject.keys();
+                        while (iterator.hasNext()) {
+                            String key = (String) iterator.next();
+                            tableList.add(key);
+                        stringKey.append(key).append(',');
+                        }
+                        resultList.add(stringKey.deleteCharAt(stringKey.length()-1).toString());
+                    }
+                    StringBuilder stringValue = new StringBuilder();
+                    for(String entry: tableList){
+                        String value = new String();
+                        if(!jsonObject.has(entry)){
+                            value = "null";
+                        }
+                        else {
+                            value = jsonObject.get(entry).toString();
+                        }
+                        stringValue.append(value).append(',');
+                    }
+                    resultList.add(stringValue.deleteCharAt(stringValue.length()-1).toString());
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
