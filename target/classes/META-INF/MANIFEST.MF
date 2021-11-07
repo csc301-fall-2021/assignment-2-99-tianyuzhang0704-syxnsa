@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Quin
+Build-Jdk: 16.0.2
+Implementation-Title: a2
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.example
+Implementation-URL: https://spring.io/projects/spring-boot/a2
+Main-Class: com.example.demo.A2Application
+Created-By: Maven Integration for Eclipse
+

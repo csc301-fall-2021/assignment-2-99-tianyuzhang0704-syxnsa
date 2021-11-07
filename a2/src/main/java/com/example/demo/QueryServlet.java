@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -20,12 +21,15 @@ public class QueryServlet {
 	@CrossOrigin(origins = "*",maxAge = 3600)
 	public Object doPost(@RequestBody QueryForm queryform) throws IOException, ServletException {
 		MongoUtils database = new MongoUtils();
+		Time time = new Time();
 		int filetype = queryform.getType();
 		ArrayList<String> search = queryform.getSearch();
 		ArrayList<String> data = queryform.getData();
-		String starttime = queryform.getStartTime();
-		String endtime = queryform.getEndTime();
+		String startTime = queryform.getStartTime();
+		String endTime = queryform.getEndTime();
 		int returntype = queryform.getReturnType();
+		List<String> days = time.getDays(startTime, endTime);
+		System.out.println(days);
 		String type;
 		if(filetype == 0) {
 			type = "dailyreport";
@@ -34,7 +38,7 @@ public class QueryServlet {
 			type = "timeseries";
 		}
 		if(returntype == 0) {
-			return database.query2json("covid19", type, search, data);
+			return database.query2json("covid19", type, search, data, days);
 		}
 		return "";
 		
@@ -44,8 +48,8 @@ public class QueryServlet {
 		int filetype; // 0 for daily, 1 for time series
 		ArrayList<String> search;
 		ArrayList<String> data;
-		String starttime;
-		String endtime;
+		String startTime;
+		String endTime;
 		int returntype; // 0 for json, 1 for csv
 		
 		public int getType() {
@@ -65,12 +69,14 @@ public class QueryServlet {
 		}
 		
 		public String getStartTime() {
-			return starttime;
+			return startTime;
 		}
 		
 		public String getEndTime() {
-			return endtime;
+			return endTime;
 		}
+		
+		
 		
 	}
 }

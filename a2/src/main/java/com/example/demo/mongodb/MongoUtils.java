@@ -1,6 +1,13 @@
 package com.example.demo.mongodb;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.bson.Document;
 
@@ -18,7 +25,7 @@ public class MongoUtils {
         super();
     }
 	
-	public String query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data) {
+	public String query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days) {
 		 MongoClient mongoClient = MongoClients.create(dbUrl);
 		 MongoDatabase mgdb = mongoClient.getDatabase(database);
 		 MongoCollection<Document> datacollection = mgdb.getCollection(collection);
@@ -30,13 +37,17 @@ public class MongoUtils {
 		 String result = "[";
 		 while (cursor.hasNext()) {
 			 String jsonString = cursor.next().toJson();
-             result += jsonString;
-             result += ",";
+			 String str1 = jsonString.substring(0, jsonString.indexOf("Date\": \""));
+			 String date = jsonString.substring(str1.length() + 8, jsonString.length() - 2);
+			 if(days.contains(date)) {
+				 result += jsonString;
+				 result += ",";
+			 }
 		 }
 		 result = result.substring(0, result.length() - 1);
          result += "]";
-         System.out.println(result);
 		 return result;
 	}
+	
 	
 }
