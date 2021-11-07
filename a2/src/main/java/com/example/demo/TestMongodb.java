@@ -50,43 +50,45 @@ public class TestMongodb {
             
             List<String> resultList = new LinkedList<>();
             List<String> tableList = new ArrayList<>();
+            String result = "[";
             while (cursor.hasNext()) {
-                String  jsonString = new String();
-                jsonString = cursor.next().toJson();
-                int length = jsonString.length();
-                jsonString = "[{" + jsonString.substring(jsonString.indexOf(",") + 1, length) + "]";
-                System.out.println(jsonString);
+                String jsonString = cursor.next().toJson();
+                result += jsonString;
+                result += ",";
 
-                JSONArray jsonArray = new JSONArray(jsonString);
-                JSONObject jsonObject = jsonArray.getJSONObject(0);
-                try {
-                    if(tableList.size() == 0) {
-                        StringBuilder stringKey = new StringBuilder();
-                        Iterator iterator = jsonObject.keys();
-                        while (iterator.hasNext()) {
-                            String key = (String) iterator.next();
-                            tableList.add(key);
-                        stringKey.append(key).append(',');
-                        }
-                        resultList.add(stringKey.deleteCharAt(stringKey.length()-1).toString());
-                    }
-                    StringBuilder stringValue = new StringBuilder();
-                    for(String entry: tableList){
-                        String value = new String();
-                        if(!jsonObject.has(entry)){
-                            value = "null";
-                        }
-                        else {
-                            value = jsonObject.get(entry).toString();
-                        }
-                        stringValue.append(value).append(',');
-                    }
-                    resultList.add(stringValue.deleteCharAt(stringValue.length()-1).toString());
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }
+//                JSONArray jsonArray = new JSONArray(jsonString);
+//                JSONObject jsonObject = jsonArray.getJSONObject(0);
+//                try {
+//                    if(tableList.size() == 0) {
+//                        StringBuilder stringKey = new StringBuilder();
+//                        Iterator iterator = jsonObject.keys();
+//                        while (iterator.hasNext()) {
+//                            String key = (String) iterator.next();
+//                            tableList.add(key);
+//                        stringKey.append(key).append(',');
+//                        }
+//                        resultList.add(stringKey.deleteCharAt(stringKey.length()-1).toString());
+//                    }
+//                    StringBuilder stringValue = new StringBuilder();
+//                    for(String entry: tableList){
+//                        String value = new String();
+//                        if(!jsonObject.has(entry)){
+//                            value = "null";
+//                        }
+//                        else {
+//                            value = jsonObject.get(entry).toString();
+//                        }
+//                        stringValue.append(value).append(',');
+//                    }
+//                    resultList.add(stringValue.deleteCharAt(stringValue.length()-1).toString());
+//                }
+//                catch (JSONException e){
+//                    e.printStackTrace();
+//                }
             }
+            result = result.substring(0, result.length() - 1);
+            result += "]";
+            System.out.println(result);
             
 
         } catch (Exception e) {
