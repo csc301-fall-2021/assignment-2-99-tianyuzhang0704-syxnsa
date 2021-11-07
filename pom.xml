@@ -20,6 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<start-class>com.example.demo.TestMongodb</start-class>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		        
