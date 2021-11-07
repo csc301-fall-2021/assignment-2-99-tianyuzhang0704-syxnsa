@@ -16,7 +16,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
-		<start-class>com.example.demo.TestMongodb</start-class>
+		<start-class>com.example.demo.A2Application</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
