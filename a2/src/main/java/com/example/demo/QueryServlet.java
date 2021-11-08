@@ -39,11 +39,19 @@ public class QueryServlet {
 		else {
 			type = "timeseries";
 		}
-		
+		ArrayList<JSONObject> arr = database.query2json("covid19", type, search, data, days, returnData);
 		if(returnType.equals("0")) {
-			JSONObject result = database.query2json("covid19", type, search, data, days, returnData);
-
+	        JSONObject result = new JSONObject();
+	        result.put("result", arr);
 			return result.toString();
+		}
+		if(returnType.equals("1")) {
+			Json2CsvUtils jsonUtils = new Json2CsvUtils();
+			String json = arr.toString();
+	    	String csv = jsonUtils.Json2Csv(json);
+	    	JSONObject result = new JSONObject();
+	    	result.put("CSV", csv);
+	    	return result.toString();
 		}
 		return "";
 		

@@ -40,8 +40,11 @@ public class TestMongodb {
     	province.add("Province_State");
     	ArrayList<String> data = new ArrayList();
     	data.add("Alabama");
-    	JSONObject jsonObject = mongoUtils.query2json("covid19", "dailyreport", province, data, a, "Confirmed");
-    	System.out.println(jsonObject);
+    	ArrayList<JSONObject> jsonObject = mongoUtils.query2json("covid19", "dailyreport", province, data, a, "Confirmed");
+    	Json2CsvUtils b = new Json2CsvUtils();
+    	String json = jsonObject.toString();
+    	String csv = b.Json2Csv(json);
+    	System.out.println(csv);
 //        try {
 //
 //            // To connect to mongodb server
