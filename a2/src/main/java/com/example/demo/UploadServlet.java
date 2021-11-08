@@ -46,8 +46,9 @@ public class UploadServlet{
 		JSONObject[] jsons = null;
 		jsons = csvUtils.csv2JSON(header, stringsList, "Date", date);
 		
-		System.out.println(jsons[0]);
-		return date;
+		String a = jsons[0].toString();
+		database.insert(jsons[0], filetype);
+		return a;
 	}
 	
 }

@@ -39,14 +39,16 @@ public class Csv2JsonUtils {
         JSONObject json = new JSONObject();
         for (int i = 0; i < keys.length; i++) {
             try{
-                json.append(keys[i],values[i]);
+                json.put(keys[i],values[i]);
+                
             }
             catch (ArrayIndexOutOfBoundsException e){
                 json.append(keys[i],null);
             }
-            
+            System.out.println(json);
         }
-        json.append(add, variable);
+        
+        json.put(add, variable);
         return json;
     }
  

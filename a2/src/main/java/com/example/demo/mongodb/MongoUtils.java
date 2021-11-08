@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.bson.Document;
+import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
@@ -48,6 +49,24 @@ public class MongoUtils {
          result += "]";
 		 return result;
 	}
+	
+	public void insert(JSONObject json, int type) {
+        try (MongoClient mongoClient = MongoClients.create(dbUrl)) {
+            MongoDatabase userDB = mongoClient.getDatabase("covid19");
+            MongoCollection<Document> collection;
+            if(type == 0) {
+            	collection = userDB.getCollection("dailyreport");
+            }
+            else {
+            	collection = userDB.getCollection("timeseries");
+            }
+            
+            
+            Document doc = Document.parse(json.toString());
+            collection.insertOne(doc);
+         
+        }
+    }
 	
 	
 }
