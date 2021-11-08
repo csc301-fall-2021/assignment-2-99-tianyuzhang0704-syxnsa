@@ -45,7 +45,6 @@ public class Csv2JsonUtils {
             catch (ArrayIndexOutOfBoundsException e){
                 json.append(keys[i],null);
             }
-            System.out.println(json);
         }
         
         json.put(add, variable);

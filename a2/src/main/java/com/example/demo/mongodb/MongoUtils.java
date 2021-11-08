@@ -36,9 +36,9 @@ public class MongoUtils {
 			 query.put(search.get(i), data.get(i));
 		 }
 		 MongoCursor<Document> cursor = datacollection.find(query).skip(0).iterator();
-		 ArrayList<JSONObject> arr = new ArrayList();
+		 ArrayList<JSONObject> arr = new ArrayList<JSONObject>();
 //		 String result = "[";
-		 System.out.println(days);
+
 		 while (cursor.hasNext()) {
 			 Document temp = cursor.next();
 			 String date = temp.getString("Date");
@@ -68,18 +68,23 @@ public class MongoUtils {
             	collection = userDB.getCollection("dailyreport");
             	BasicDBObject query = new BasicDBObject();
             	String province = json.getString("Province_State");
-            	System.out.println(province);
 //            	String jsonString = json.toString();
 //            	int index1 = jsonString.indexOf("Province_State") + 17;
 //            	int index2 = jsonString.indexOf("\"", index1);
 //            	String province = jsonString.substring(index1, index2);
-
             	query.put("Date", variable);
             	query.put("Province_State", province);
             	collection.findOneAndDelete(query);
             }
             else {
             	collection = userDB.getCollection("timeseries");
+            	BasicDBObject query = new BasicDBObject();
+            	String lat = json.getString("Lat");  
+            	String Long = json.getString("Long");
+            	query.put("Return_Data", variable);
+            	query.put("Long", Long);
+            	query.put("Lat", lat);
+            	collection.findOneAndDelete(query);
             }
             
             

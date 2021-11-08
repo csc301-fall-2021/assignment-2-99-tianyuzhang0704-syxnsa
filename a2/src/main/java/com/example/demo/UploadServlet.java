@@ -52,7 +52,7 @@ public class UploadServlet{
 			}
 		}
 		if(filetype == 1) {
-			jsons = csvUtils.csv2JSON(header, stringsList, "ReturnData", input);
+			jsons = csvUtils.csv2JSON(header, stringsList, "Return_Data", input);
 			for(int i = 0; i < jsons.length; i++) {
 				database.insert(jsons[i], filetype, input);
 			}
