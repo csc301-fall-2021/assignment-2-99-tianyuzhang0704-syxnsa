@@ -34,7 +34,7 @@ public class Csv2JsonUtils {
      * @param
      * @return
      */
-    public JSONObject csv2JSON(String[] keys,String[] values) throws JSONException {
+    public JSONObject csv2JSON(String[] keys,String[] values, String add, String variable) throws JSONException {
  
         JSONObject json = new JSONObject();
         for (int i = 0; i < keys.length; i++) {
@@ -44,7 +44,9 @@ public class Csv2JsonUtils {
             catch (ArrayIndexOutOfBoundsException e){
                 json.append(keys[i],null);
             }
+            
         }
+        json.append(add, variable);
         return json;
     }
  
@@ -54,13 +56,13 @@ public class Csv2JsonUtils {
      * @param 
      * @return
      */
-    public JSONObject[] csv2JSON(String[] keys,List<String[]> stringsList) throws JSONException {
+    public JSONObject[] csv2JSON(String[] keys,List<String[]> stringsList, String add, String variable) throws JSONException {
  
         JSONObject[] jsons = new JSONObject[stringsList.size()];
         int index = 0 ;
         for (String[] strings : stringsList
              ) {
-            JSONObject json = this.csv2JSON(keys, strings);
+            JSONObject json = this.csv2JSON(keys, strings, add, variable);
             jsons[index] = json;
             index ++ ;
         }
