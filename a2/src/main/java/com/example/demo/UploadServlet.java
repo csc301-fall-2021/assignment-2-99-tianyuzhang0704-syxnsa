@@ -35,7 +35,7 @@ public class UploadServlet{
 	@PostMapping(path = "/upload")
 	@CrossOrigin(origins = "*",maxAge = 3600)
 	
-	public Object doPost(@RequestParam String date, @RequestParam int filetype, @RequestPart(value = "file",required = false) MultipartFile file) throws IOException, ServletException {
+	public Object doPost(@RequestParam String input, @RequestParam int filetype, @RequestPart(value = "file",required = false) MultipartFile file) throws IOException, ServletException {
 		MongoUtils database = new MongoUtils();
 		Csv2JsonUtils csvUtils = new Csv2JsonUtils();
 
@@ -43,13 +43,23 @@ public class UploadServlet{
 		CSVReader csvReader = new CSVReader(new InputStreamReader(dataInputStream));
 		String[] header = csvReader.readNext();
 		List<String[]> stringsList = csvReader.readAll();
+		csvReader.close();
 		JSONObject[] jsons = null;
-		jsons = csvUtils.csv2JSON(header, stringsList, "Date", date);
-		for(int i = 0; i < jsons.length; i++) {
-			database.insert(jsons[i], filetype, date);
+		if(filetype == 0) {
+			jsons = csvUtils.csv2JSON(header, stringsList, "Date", input);
+			for(int i = 0; i < jsons.length; i++) {
+				database.insert(jsons[i], filetype, input);
+			}
+		}
+		if(filetype == 1) {
+			jsons = csvUtils.csv2JSON(header, stringsList, "ReturnType", input);
+			for(int i = 0; i < jsons.length; i++) {
+				database.insert(jsons[i], filetype, input);
+			}
 		}
 		
-		return "1";
+		
+		return "Upload Success.";
 	}
 	
 }
