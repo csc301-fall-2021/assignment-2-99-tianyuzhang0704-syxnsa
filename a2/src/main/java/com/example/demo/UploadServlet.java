@@ -45,10 +45,11 @@ public class UploadServlet{
 		List<String[]> stringsList = csvReader.readAll();
 		JSONObject[] jsons = null;
 		jsons = csvUtils.csv2JSON(header, stringsList, "Date", date);
+		for(int i = 0; i < jsons.length; i++) {
+			database.insert(jsons[i], filetype, date);
+		}
 		
-		String a = jsons[0].toString();
-		database.insert(jsons[0], filetype);
-		return a;
+		return "1";
 	}
 	
 }

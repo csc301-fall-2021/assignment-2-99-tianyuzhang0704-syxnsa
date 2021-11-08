@@ -50,12 +50,21 @@ public class MongoUtils {
 		 return result;
 	}
 	
-	public void insert(JSONObject json, int type) {
+	public void insert(JSONObject json, int type, String variable) {
         try (MongoClient mongoClient = MongoClients.create(dbUrl)) {
             MongoDatabase userDB = mongoClient.getDatabase("covid19");
             MongoCollection<Document> collection;
             if(type == 0) {
             	collection = userDB.getCollection("dailyreport");
+            	BasicDBObject query = new BasicDBObject();
+            	String jsonString = json.toString();
+            	int index1 = jsonString.indexOf("Province_State") + 17;
+            	int index2 = jsonString.indexOf("\"", index1);
+            	String province = jsonString.substring(index1, index2);
+            	System.out.println(province);
+            	query.put("Date", variable);
+            	query.put("Province_State", province);
+            	collection.findOneAndDelete(query);
             }
             else {
             	collection = userDB.getCollection("timeseries");
