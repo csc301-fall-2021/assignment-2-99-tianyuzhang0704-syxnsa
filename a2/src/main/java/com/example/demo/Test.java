@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.json.CDL;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -13,7 +15,7 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
         Csv2JsonUtils csvUtils = new Csv2JsonUtils();
- 
+        Json2CsvUtils jsonUtils = new Json2CsvUtils();
        
       
         
@@ -28,7 +30,14 @@ public class Test {
             String[] keys = csvReader.readNext();
             List<String[]> list = csvReader.readAll();
             jsons = csvUtils.csv2JSON(keys, list, "Date", "2020-01-01");
-            System.out.println(jsons[0]);
+            String csv = "";
+            for(int i = 0; i < keys.length + 1; i++) {
+            	System.out.println(jsons[i].toString());
+//            	JSONArray jsonArray = new JSONArray(jsons[i].toString());
+//        		String a =CDL.toString(jsonArray);  
+//        		csv += a;
+            }
+//            System.out.println(csv);
 
 //            for (JSONObject json : jsons) {
 //                for (int i = 0; i < keys.length; i++) {

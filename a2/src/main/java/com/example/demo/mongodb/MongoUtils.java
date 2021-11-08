@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.bson.Document;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class MongoUtils {
         super();
     }
 	
-	public String query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days) {
+	public JSONObject query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days) {
 		 MongoClient mongoClient = MongoClients.create(dbUrl);
 		 MongoDatabase mgdb = mongoClient.getDatabase(database);
 		 MongoCollection<Document> datacollection = mgdb.getCollection(collection);
@@ -47,7 +48,8 @@ public class MongoUtils {
 		 }
 		 result = result.substring(0, result.length() - 1);
          result += "]";
-		 return result;
+         JSONObject json = new JSONObject();
+         json.put(result, false)
 	}
 	
 	public void insert(JSONObject json, int type, String variable) {
@@ -57,11 +59,13 @@ public class MongoUtils {
             if(type == 0) {
             	collection = userDB.getCollection("dailyreport");
             	BasicDBObject query = new BasicDBObject();
-            	String jsonString = json.toString();
-            	int index1 = jsonString.indexOf("Province_State") + 17;
-            	int index2 = jsonString.indexOf("\"", index1);
-            	String province = jsonString.substring(index1, index2);
+            	String province = json.getString("Province_State");
             	System.out.println(province);
+//            	String jsonString = json.toString();
+//            	int index1 = jsonString.indexOf("Province_State") + 17;
+//            	int index2 = jsonString.indexOf("\"", index1);
+//            	String province = jsonString.substring(index1, index2);
+
             	query.put("Date", variable);
             	query.put("Province_State", province);
             	collection.findOneAndDelete(query);
