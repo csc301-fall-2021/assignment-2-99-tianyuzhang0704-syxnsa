@@ -27,7 +27,7 @@ public class MongoUtils {
         super();
     }
 	
-	public JSONObject query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days) {
+	public JSONObject query2json(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days, String returnData) {
 		 MongoClient mongoClient = MongoClients.create(dbUrl);
 		 MongoDatabase mgdb = mongoClient.getDatabase(database);
 		 MongoCollection<Document> datacollection = mgdb.getCollection(collection);
@@ -36,20 +36,28 @@ public class MongoUtils {
 			 query.put(search.get(i), data.get(i));
 		 }
 		 MongoCursor<Document> cursor = datacollection.find(query).skip(0).iterator();
-		 String result = "[";
+		 ArrayList<JSONObject> arr = new ArrayList();
+//		 String result = "[";
+		 System.out.println(days);
 		 while (cursor.hasNext()) {
-			 String jsonString = cursor.next().toJson();
-			 String str1 = jsonString.substring(0, jsonString.indexOf("Date\": \""));
-			 String date = jsonString.substring(str1.length() + 8, jsonString.length() - 2);
+			 Document temp = cursor.next();
+			 String date = temp.getString("Date");
+//			 String str1 = jsonString.substring(0, jsonString.indexOf("Date\": \""));
+//			 String date = jsonString.substring(str1.length() + 8, jsonString.length() - 2);
 			 if(days.contains(date)) {
-				 result += jsonString;
-				 result += ",";
+				 String var = temp.getString(returnData);
+				 JSONObject item = new JSONObject();			 
+				 item.put(returnData, var);
+				 item.put("Date", date);
+				 arr.add(item);
+
 			 }
 		 }
-		 result = result.substring(0, result.length() - 1);
-         result += "]";
+//		 result = result.substring(0, result.length() - 1);
+//         result += "]";
          JSONObject json = new JSONObject();
-         json.put(result, false)
+         json.put("result", arr);
+         return json;
 	}
 	
 	public void insert(JSONObject json, int type, String variable) {

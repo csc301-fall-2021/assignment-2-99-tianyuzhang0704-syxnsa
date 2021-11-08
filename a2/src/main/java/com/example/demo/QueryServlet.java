@@ -28,6 +28,7 @@ public class QueryServlet {
 		String startTime = queryform.getStartTime();
 		String endTime = queryform.getEndTime();
 		int returntype = queryform.getReturnType();
+		String returnData = queryform.getReturnData();
 		List<String> days = time.getDays(startTime, endTime);
 		System.out.println(days);
 		String type;
@@ -38,7 +39,7 @@ public class QueryServlet {
 			type = "timeseries";
 		}
 		if(returntype == 0) {
-			return database.query2json("covid19", type, search, data, days);
+			return database.query2json("covid19", type, search, data, days, returnData);
 		}
 		return "";
 		
@@ -51,6 +52,7 @@ public class QueryServlet {
 		String startTime;
 		String endTime;
 		int returntype; // 0 for json, 1 for csv
+		String returnData;
 		
 		public int getType() {
 			return filetype;
@@ -76,6 +78,9 @@ public class QueryServlet {
 			return endTime;
 		}
 		
+		public String getReturnData() {
+			return returnData;
+		}
 		
 		
 	}
