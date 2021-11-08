@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,45 +23,41 @@ public class QueryServlet {
 	public Object doPost(@RequestBody QueryForm queryform) throws IOException, ServletException {
 		MongoUtils database = new MongoUtils();
 		Time time = new Time();
-		int filetype = queryform.getType();
+		String fileType = queryform.getFileType();
 		ArrayList<String> search = queryform.getSearch();
 		ArrayList<String> data = queryform.getData();
 		String startTime = queryform.getStartTime();
 		String endTime = queryform.getEndTime();
-		int returntype = queryform.getReturnType();
+		String returnType = queryform.getType();
 		String returnData = queryform.getReturnData();
 		List<String> days = time.getDays(startTime, endTime);
-		System.out.println(days);
 		String type;
-		if(filetype == 0) {
+		if(fileType.equals("0")) {
 			type = "dailyreport";
+			System.out.println(type.equals("dailyreport"));
 		}
 		else {
 			type = "timeseries";
 		}
-		if(returntype == 0) {
-			return database.query2json("covid19", type, search, data, days, returnData);
+		
+		if(returnType.equals("0")) {
+			JSONObject result = database.query2json("covid19", type, search, data, days, returnData);
+
+			return result.toString();
 		}
 		return "";
 		
 	}
 
 	public static class QueryForm{
-		int filetype; // 0 for daily, 1 for time series
 		ArrayList<String> search;
 		ArrayList<String> data;
 		String startTime;
 		String endTime;
-		int returntype; // 0 for json, 1 for csv
 		String returnData;
+		String fileType;
+		String type;
 		
-		public int getType() {
-			return filetype;
-		}
-		
-		public int getReturnType() {
-			return returntype;
-		}
 		
 		public ArrayList<String> getSearch() {
 			return search;
@@ -82,6 +79,37 @@ public class QueryServlet {
 			return returnData;
 		}
 		
+		public String getFileType() {
+			return fileType;
+		}
 		
+		public String getType() {
+			return type;
+		}
+		
+		public void setSearch(ArrayList<String> search) {
+			this.search = search;
+		}
+		
+		public void setData(ArrayList<String> data) {
+			this.data = data;
+		}
+		
+		public void setStart(String start) {
+			this.startTime = start;
+		}
+		public void setEnd(String end) {
+			this.endTime = end;
+		}
+		public void setReturnData(String data) {
+			this.returnData = data;
+		}
+		public void setFileType(String type) {
+			this.fileType = type;
+		}
+		
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 }

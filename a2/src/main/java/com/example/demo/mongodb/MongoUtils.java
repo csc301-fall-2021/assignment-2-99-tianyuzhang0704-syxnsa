@@ -41,17 +41,41 @@ public class MongoUtils {
 
 		 while (cursor.hasNext()) {
 			 Document temp = cursor.next();
-			 String date = temp.getString("Date");
+			 JSONObject item = new JSONObject();
+			 if(collection.equals("dailyreport")) {
+				 String date = temp.getString("Date");
+				 if(days.contains(date)) {
+					 String var = temp.getString(returnData);
+					 item.put(returnData, var);
+				 }
+				 item.put("Date", date);
+			 }
+			 if(collection.equals("timeseries")){
+				 String type = temp.getString("Return_Data");
+				 if(type.equals(returnData)) {
+					 item.put("Return_Data", type);
+					 for(String day: days) {
+						 item.put(day, temp.getString(day));
+					 }
+				 }
+			 }
+			 arr.add(item);
+			 
 //			 String str1 = jsonString.substring(0, jsonString.indexOf("Date\": \""));
 //			 String date = jsonString.substring(str1.length() + 8, jsonString.length() - 2);
-			 if(days.contains(date)) {
-				 String var = temp.getString(returnData);
-				 JSONObject item = new JSONObject();			 
-				 item.put(returnData, var);
-				 item.put("Date", date);
-				 arr.add(item);
-
-			 }
+//			 if(days.contains(date)) {
+//				 JSONObject item = new JSONObject();	
+//				 if(collection == "dailyreport") {
+//					 String var = temp.getString(returnData);	
+//					 item.put(returnData, var);
+//				 }
+//				 else {
+//					 String var = returnData;
+//					 item.put("Return_Data", var);
+//				 }		 
+//				 item.put("Date", date);
+				 
+//			 }
 		 }
 //		 result = result.substring(0, result.length() - 1);
 //         result += "]";

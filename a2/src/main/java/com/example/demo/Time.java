@@ -12,7 +12,7 @@ public class Time {
 	public List<String> getDays(String startTime, String endTime) {
         List<String> days = new ArrayList<String>();
 
-        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
         try {
             java.util.Date start = dateFormat.parse(startTime);
             java.util.Date end = dateFormat.parse(endTime);
