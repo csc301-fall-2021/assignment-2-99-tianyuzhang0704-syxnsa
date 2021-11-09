@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d2e026-e9bc-4201-aca5-ca44e93d3018" name="Changes" comment="" />
+    <list default="true" id="91d2e026-e9bc-4201-aca5-ca44e93d3018" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/a2/src/main/java/com/example/demo/mongodb/MongoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/a2/src/main/java/com/example/demo/mongodb/MongoUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/com.example/a2/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/com.example/a2/pom.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

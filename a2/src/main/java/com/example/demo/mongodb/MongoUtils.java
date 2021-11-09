@@ -74,13 +74,14 @@ public class MongoUtils {
             if(type == 0) {
             	collection = userDB.getCollection("dailyreport");
             	BasicDBObject query = new BasicDBObject();
-            	String province = json.getString("Province_State");
+            	String combined_key = json.getString("Combined_Key");
+            	
 //            	String jsonString = json.toString();
 //            	int index1 = jsonString.indexOf("Province_State") + 17;
 //            	int index2 = jsonString.indexOf("\"", index1);
 //            	String province = jsonString.substring(index1, index2);
             	query.put("Date", variable);
-            	query.put("Province_State", province);
+            	query.put("Combined_Key", combined_key);      	
             	collection.findOneAndDelete(query);
             }
             else {
