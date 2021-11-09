@@ -1,15 +1,9 @@
 package com.example.demo.mongodb;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.tomcat.util.json.JSONParser;
 import org.bson.Document;
 import org.json.JSONObject;
 import org.bson.conversions.Bson;
@@ -61,7 +55,9 @@ public class MongoUtils {
 					 }
 				 }
 			 }
-			 arr.add(item);
+			 if(item.length() != 0) {
+				 arr.add(item);
+			 }	 
 		 }
 		 return arr;
 //         JSONObject json = new JSONObject();
@@ -69,7 +65,7 @@ public class MongoUtils {
 //         return json;
 	}
 	
-	public void insert(JSONObject json, int type, String variable, String collectionName) {
+	public void insert(JSONObject json, int type, String collectionName) {
         try (MongoClient mongoClient = MongoClients.create(dbUrl)) {
             MongoDatabase userDB = mongoClient.getDatabase("covid19");
             MongoCollection<Document> collection = userDB.getCollection(collectionName);          
@@ -87,5 +83,56 @@ public class MongoUtils {
         }
 	}
 	
+	public ArrayList<JSONObject> queryForActive(String database, String collection, ArrayList<String> search, ArrayList<String> data, List<String> days){
+		MongoClient mongoClient = MongoClients.create(dbUrl);
+		MongoDatabase mgdb = mongoClient.getDatabase(database);
+		MongoCollection<Document> datacollection = mgdb.getCollection(collection);
+		BasicDBObject query = new BasicDBObject();
+		for(int i = 0; i < search.size(); i++) {
+			query.put(search.get(i), data.get(i));
+		}
+		MongoCursor<Document> cursor = datacollection.find(query).skip(0).iterator();
+		ArrayList<JSONObject> arr = new ArrayList<JSONObject>();
+		Hashtable<String, Integer> confirmed = new Hashtable<String, Integer>();
+		Hashtable<String, Integer> deaths = new Hashtable<String, Integer>();
+		Hashtable<String, Integer> recovered = new Hashtable<String, Integer>();
+		
+		while (cursor.hasNext()) {
+			Document temp = cursor.next();
+			String type = temp.getString("Return_Data");
+			if(type.equals("Confirmed")) {
+				for(String day: days) {
+					 confirmed.put(day, Integer.parseInt(temp.getString(day)));
+				 }
+			}
+			if(type.equals("Deaths")) {
+				for(String day: days) {
+					deaths.put(day, Integer.parseInt(temp.getString(day)));
+				}
+			}
+			if(type.equals("Recovered")) {
+				for(String day: days) {
+					recovered.put(day, Integer.parseInt(temp.getString(day)));
+				}
+			}
+		
+
+		}
+		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size()) {
+			JSONObject error = new JSONObject();
+			error.put("error", "some data is missing.");
+			arr.add(error);
+			return arr;
+		}
+		JSONObject item = new JSONObject();
+		for (String day: days) {
+			Integer active = confirmed.get(day) - deaths.get(day) - recovered.get(day);
+			item.put(day, active.toString());
+		}
+		if(item.length() != 0) {
+			arr.add(item);
+		}	
+		return arr;
+	}	
 	
 }

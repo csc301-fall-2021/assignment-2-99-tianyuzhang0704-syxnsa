@@ -39,7 +39,14 @@ public class QueryServlet {
 		else {
 			type = "timeseries";
 		}
-		ArrayList<JSONObject> arr = database.query2json("covid19", type, search, data, days, returnData);
+		ArrayList<JSONObject> arr;
+		if(type.equals("timeseries") && returnData.equals("Active")) {
+			arr = database.queryForActive("covid19", "timeseries", search, data, days);
+		}
+		else {
+			arr = database.query2json("covid19", type, search, data, days, returnData);
+		}
+		
 		if(returnType.equals("0")) {
 	        JSONObject result = new JSONObject();
 	        result.put("result", arr);

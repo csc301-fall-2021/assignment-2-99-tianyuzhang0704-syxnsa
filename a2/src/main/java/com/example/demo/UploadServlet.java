@@ -49,14 +49,14 @@ public class UploadServlet{
 			jsons = csvUtils.csv2JSON(header, stringsList, "Date", input);
 			database.delete("Date", input, "dailyreport");
 			for(int i = 0; i < jsons.length; i++) {
-				database.insert(jsons[i], filetype, input, "dailyreport");
+				database.insert(jsons[i], filetype, "dailyreport");
 			}
 		}
 		if(filetype == 1) {
 			jsons = csvUtils.csv2JSON(header, stringsList, "Return_Data", input);
 			database.delete("Return_Data", input, "timeseries");
 			for(int i = 0; i < jsons.length; i++) {
-				database.insert(jsons[i], filetype, input, "timeseries");
+				database.insert(jsons[i], filetype, "timeseries");
 			}
 		}
 		

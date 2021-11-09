@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.json.CDL;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,19 +34,20 @@ public class TestMongodb {
     public static void main(String args[]) throws ParseException {
     	String dbUrl = "mongodb+srv://cRERQ6ZQmVZ7B0T4:cRERQ6ZQmVZ7B0T4@cluster0.rikfx.mongodb.net/covid19?retryWrites=true&w=majority";
     	Time time = new Time();
-    	List<String> a = time.getDays("1/1/2021", "1/1/2021");
+    	List<String> a = time.getDays("8/3/2020", "8/4/2020");
 //    	System.out.println(a);
     	MongoUtils mongoUtils = new MongoUtils();
     	ArrayList<String> province = new ArrayList();
-    	province.add("Province_State");
+    	province.add("Lat");
     	ArrayList<String> data = new ArrayList();
-    	data.add("Alabama");
-    	ArrayList<JSONObject> jsonObject = mongoUtils.query2json("covid19", "dailyreport", province, data, a, "Confirmed");
+    	data.add("33.93911");
+    	ArrayList<JSONObject> jsonObject = mongoUtils.queryForActive("covid19", "timeseries", province, data, a);
     	Json2CsvUtils b = new Json2CsvUtils();
-    	String json = jsonObject.toString();
-    	String csv = b.Json2Csv(json);
-    	System.out.println(csv);
-//        try {
+    	System.out.println(jsonObject);
+    	
+    	
+    	
+    	//        try {
 //
 //            // To connect to mongodb server
 //            MongoClient mongoClient = MongoClients.create(dbUrl);
