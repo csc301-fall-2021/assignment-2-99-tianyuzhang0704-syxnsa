@@ -49,9 +49,7 @@ public class QueryServlet {
 			Json2CsvUtils jsonUtils = new Json2CsvUtils();
 			String json = arr.toString();
 	    	String csv = jsonUtils.Json2Csv(json);
-	    	JSONObject result = new JSONObject();
-	    	result.put("CSV", csv);
-	    	return result.toString();
+	    	return csv;
 		}
 		return "";
 		
