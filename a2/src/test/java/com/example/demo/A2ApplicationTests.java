@@ -22,7 +22,7 @@ class A2ApplicationTests {
 		List<String> days = time.getDays(startTime, endTime);
 		ArrayList<String> search = new ArrayList<String>(Arrays.asList("Province_State"));
 		ArrayList<String> data = new ArrayList<String>(Arrays.asList("Alabama"));
-		mongoUtils.query2json("covid19", "dailyreport", search, data, days);
+		// mongoUtils.query2json("covid19", "dailyreport", search, data, days);
 	}
 
 	@Test
