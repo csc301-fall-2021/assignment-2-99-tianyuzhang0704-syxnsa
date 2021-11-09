@@ -34,7 +34,7 @@ public class TestMongodb {
     public static void main(String args[]) throws ParseException {
     	String dbUrl = "mongodb+srv://cRERQ6ZQmVZ7B0T4:cRERQ6ZQmVZ7B0T4@cluster0.rikfx.mongodb.net/covid19?retryWrites=true&w=majority";
     	Time time = new Time();
-    	List<String> a = time.getDays("8/3/2020", "8/4/2020");
+    	List<String> a = time.getDays("8/1/2020", "8/2/2020");
 //    	System.out.println(a);
     	MongoUtils mongoUtils = new MongoUtils();
     	ArrayList<String> province = new ArrayList();
@@ -42,10 +42,11 @@ public class TestMongodb {
     	ArrayList<String> data = new ArrayList();
     	data.add("33.93911");
     	ArrayList<JSONObject> jsonObject = mongoUtils.queryForActive("covid19", "timeseries", province, data, a);
+    	ArrayList<JSONObject> jsonObject1 = mongoUtils.query2json("covid19", "timeseries", province, data, a, "Recovered");
     	Json2CsvUtils b = new Json2CsvUtils();
     	System.out.println(jsonObject);
-    	
-    	
+//    	
+
     	
     	//        try {
 //

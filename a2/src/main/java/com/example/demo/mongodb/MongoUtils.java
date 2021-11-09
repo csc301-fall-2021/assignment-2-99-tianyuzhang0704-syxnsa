@@ -55,6 +55,7 @@ public class MongoUtils {
 					 }
 				 }
 			 }
+
 			 if(item.length() != 0) {
 				 arr.add(item);
 			 }	 
@@ -93,45 +94,69 @@ public class MongoUtils {
 		}
 		MongoCursor<Document> cursor = datacollection.find(query).skip(0).iterator();
 		ArrayList<JSONObject> arr = new ArrayList<JSONObject>();
-		Hashtable<String, Integer> confirmed = new Hashtable<String, Integer>();
-		Hashtable<String, Integer> deaths = new Hashtable<String, Integer>();
-		Hashtable<String, Integer> recovered = new Hashtable<String, Integer>();
+		Hashtable<String, ArrayList<Integer>> confirmed = new Hashtable<String, ArrayList<Integer>>();
+		Hashtable<String, ArrayList<Integer>> deaths = new Hashtable<String, ArrayList<Integer>>();
+		Hashtable<String, ArrayList<Integer>> recovered = new Hashtable<String, ArrayList<Integer>>();
 		
 		while (cursor.hasNext()) {
 			Document temp = cursor.next();
 			String type = temp.getString("Return_Data");
 			if(type.equals("Confirmed")) {
 				for(String day: days) {
-					 confirmed.put(day, Integer.parseInt(temp.getString(day)));
+					if(!confirmed.containsKey(day)) {
+						confirmed.put(day, new ArrayList<Integer>());
+						confirmed.get(day).add(Integer.parseInt(temp.getString(day)));
+					}
+					else {
+						confirmed.get(day).add(Integer.parseInt(temp.getString(day)));
+					}			
 				 }
 			}
 			if(type.equals("Deaths")) {
 				for(String day: days) {
-					deaths.put(day, Integer.parseInt(temp.getString(day)));
+					if(!deaths.containsKey(day)) {
+						deaths.put(day, new ArrayList<Integer>());
+						deaths.get(day).add(Integer.parseInt(temp.getString(day)));
+					}
+					else {
+						deaths.get(day).add(Integer.parseInt(temp.getString(day)));
+					}		
 				}
 			}
 			if(type.equals("Recovered")) {
 				for(String day: days) {
-					recovered.put(day, Integer.parseInt(temp.getString(day)));
+					if(!recovered.containsKey(day)) {
+						recovered.put(day, new ArrayList<Integer>());
+						recovered.get(day).add(Integer.parseInt(temp.getString(day)));
+
+					}
+					else {
+						recovered.get(day).add(Integer.parseInt(temp.getString(day)));
+						}
 				}
 			}
 		
 
 		}
+
 		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size()) {
 			JSONObject error = new JSONObject();
 			error.put("error", "some data is missing.");
 			arr.add(error);
 			return arr;
 		}
-		JSONObject item = new JSONObject();
-		for (String day: days) {
-			Integer active = confirmed.get(day) - deaths.get(day) - recovered.get(day);
-			item.put(day, active.toString());
+
+		for (int i = 0; i < confirmed.get(days.get(0)).size(); i++) {
+			JSONObject item = new JSONObject();
+			item.put("Return_Data", "Active");
+			for (String day:days) {
+				Integer active = confirmed.get(day).get(i) - deaths.get(day).get(i) - recovered.get(day).get(i);			
+				item.put(day, active.toString());
+			}	
+			if(item.length() != 0) {
+				arr.add(item);
+			}	
 		}
-		if(item.length() != 0) {
-			arr.add(item);
-		}	
 		return arr;
 	}	
 	
