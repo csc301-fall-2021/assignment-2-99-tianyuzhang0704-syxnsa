@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.tomcat.util.json.JSONParser;
 import org.bson.Document;
 import org.json.JSONObject;
+import org.bson.conversions.Bson;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
@@ -22,6 +23,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoUtils {
 	private String dbUrl = "mongodb+srv://cRERQ6ZQmVZ7B0T4:cRERQ6ZQmVZ7B0T4@cluster0.rikfx.mongodb.net/covid19?retryWrites=true&w=majority";
+	// private String dbUrl = "mongodb+srv://123:123@cluster0.os4ea.mongodb.net/covid19?retryWrites=true&w=majority";
 	
 	public MongoUtils() {
         super();
@@ -67,40 +69,23 @@ public class MongoUtils {
 //         return json;
 	}
 	
-	public void insert(JSONObject json, int type, String variable) {
+	public void insert(JSONObject json, int type, String variable, String collectionName) {
         try (MongoClient mongoClient = MongoClients.create(dbUrl)) {
             MongoDatabase userDB = mongoClient.getDatabase("covid19");
-            MongoCollection<Document> collection;
-            if(type == 0) {
-            	collection = userDB.getCollection("dailyreport");
-            	BasicDBObject query = new BasicDBObject();
-            	String combined_key = json.getString("Combined_Key");
-            	
-//            	String jsonString = json.toString();
-//            	int index1 = jsonString.indexOf("Province_State") + 17;
-//            	int index2 = jsonString.indexOf("\"", index1);
-//            	String province = jsonString.substring(index1, index2);
-            	query.put("Date", variable);
-            	query.put("Combined_Key", combined_key);      	
-            	collection.findOneAndDelete(query);
-            }
-            else {
-            	collection = userDB.getCollection("timeseries");
-            	BasicDBObject query = new BasicDBObject();
-            	String lat = json.getString("Lat");  
-            	String Long = json.getString("Long");
-            	query.put("Return_Data", variable);
-            	query.put("Long", Long);
-            	query.put("Lat", lat);
-            	collection.findOneAndDelete(query);
-            }
-            
-            
+            MongoCollection<Document> collection = userDB.getCollection(collectionName);          
             Document doc = Document.parse(json.toString());
             collection.insertOne(doc);
-         
         }
     }
+
+	public void delete(String key, String value, String collectionName) {
+		try (MongoClient mongoClient = MongoClients.create(dbUrl)) {
+            MongoDatabase userDB = mongoClient.getDatabase("covid19");
+			MongoCollection<Document> collection = userDB.getCollection(collectionName);
+            Bson filter = new Document(key, value);
+            collection.deleteMany(filter);
+        }
+	}
 	
 	
 }
