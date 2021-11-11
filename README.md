@@ -1,12 +1,10 @@
 # CSC301 A2 TEAM99
 
-------
 
 
 
 ## Pair Programming Process
 
--------
 
 ### General Description
 
@@ -49,7 +47,6 @@ Throughout our development process, we take the driver and the navigator's role 
 
 ## Reflections and Evaluation
 
--------
 
 ### Reflection on The Process
 
@@ -73,7 +70,6 @@ Overall, the process went well. Both of us had opportunities to write the code a
 
 ## Program Design
 
----------
 
 ### API Design
 
@@ -85,7 +81,6 @@ We decided to use two APIs. One is https://csc301a2team99.herokuapp.com/upload f
 
 ## Tests
 
-------
 
 ### Unit Test
 
@@ -99,7 +94,6 @@ We used JUnit to run unit tests. Since it is not a typical OOP program, for this
 
 ## API Documentation
 
---------
 
 ### API Documentation Link
 
