@@ -42,8 +42,14 @@ public class MongoUtils {
 				 String date = temp.getString("Date");
 				 if(days.contains(date)) {
 					 String var = temp.getString(returnData);
-					 item.put(returnData, var);
-					 item.put("Date", date);
+					 if (var != null) {
+						item.put(returnData, var);
+						item.put("Date", date);
+					 }
+					 else {
+						 item.put("error", "No such return data!");
+					 }
+					 
 				 }
 				 
 			 }
@@ -54,6 +60,9 @@ public class MongoUtils {
 					 for(String day: days) {
 						 item.put(day, temp.getString(day));
 					 }
+				 }
+				 else {
+					 item.put("error", "no such return data!");
 				 }
 			 }
 
