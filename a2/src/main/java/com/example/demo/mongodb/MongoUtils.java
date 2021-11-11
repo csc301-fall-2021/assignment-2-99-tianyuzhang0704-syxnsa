@@ -43,8 +43,9 @@ public class MongoUtils {
 				 if(days.contains(date)) {
 					 String var = temp.getString(returnData);
 					 item.put(returnData, var);
+					 item.put("Date", date);
 				 }
-				 item.put("Date", date);
+				 
 			 }
 			 if(collection.equals("timeseries")){
 				 String type = temp.getString("Return_Data");
