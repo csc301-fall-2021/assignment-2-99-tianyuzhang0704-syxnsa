@@ -38,10 +38,10 @@ public class TestMongodb {
 //    	System.out.println(a);
     	MongoUtils mongoUtils = new MongoUtils();
     	ArrayList<String> province = new ArrayList();
-    	province.add("Country/Region");
+    	province.add("Country_Region");
     	ArrayList<String> data = new ArrayList();
     	data.add("US");
-    	ArrayList<JSONObject> jsonObject = mongoUtils.query2json("covid19", "dailyreport", province, data, a,"Active");
+    	ArrayList<JSONObject> jsonObject = mongoUtils.query2json("covid19", "dailyreport", province, data, a,"active");
 //    	ArrayList<JSONObject> jsonObject1 = mongoUtils.query2json("covid19", "timeseries", province, data, a, "Recovered");
     	Json2CsvUtils b = new Json2CsvUtils();
     	System.out.println(jsonObject);

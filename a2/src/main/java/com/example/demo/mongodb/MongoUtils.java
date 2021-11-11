@@ -102,6 +102,7 @@ public class MongoUtils {
 		while (cursor.hasNext()) {
 			Document temp = cursor.next();
 			String type = temp.getString("Return_Data");
+
 			if(type.equals("Confirmed")) {
 				for(String day: days) {
 					if(!confirmed.containsKey(day)) {
