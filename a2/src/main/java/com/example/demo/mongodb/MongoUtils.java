@@ -42,14 +42,13 @@ public class MongoUtils {
 				 String date = temp.getString("Date");
 				 if(days.contains(date)) {
 					 String var = temp.getString(returnData);
-					 if (var != null) {
+					 if(var != null) {
 						item.put(returnData, var);
 						item.put("Date", date);
 					 }
 					 else {
-						 item.put("error", "No such return data!");
-					 }
-					 
+						 
+					 }				 
 				 }
 				 
 			 }
@@ -61,14 +60,17 @@ public class MongoUtils {
 						 item.put(day, temp.getString(day));
 					 }
 				 }
-				 else {
-					 item.put("error", "no such return data!");
-				 }
 			 }
 
 			 if(item.length() != 0) {
 				 arr.add(item);
-			 }	 
+			 }
+		 }
+		 if(arr.size() == 0) {
+			 JSONObject error = new JSONObject();
+			 error.put("error", "cannot find any data, please check your input.");
+			 arr.add(error);
+			 return arr;
 		 }
 		 return arr;
 //         JSONObject json = new JSONObject();
