@@ -19,13 +19,13 @@ public class Csv2JsonUtils {
      * @return List<String[]>
      * @throws IOException
      */
-    public List<String[]> readCSV(String csvName) throws IOException {
-        File file = new File(csvName);
-        DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file));
-        CSVReader csvReader = new CSVReader(new InputStreamReader(dataInputStream));
-        List<String[]> stringsList = csvReader.readAll();
-        return stringsList;
-    }
+    // public List<String[]> readCSV(String csvName) throws IOException {
+    //     File file = new File(csvName);
+    //     DataInputStream dataInputStream = new DataInputStream(new FileInputStream(file));
+    //     CSVReader csvReader = new CSVReader(new InputStreamReader(dataInputStream));
+    //     List<String[]> stringsList = csvReader.readAll();
+    //     return stringsList;
+    // }
  
  
     /**
