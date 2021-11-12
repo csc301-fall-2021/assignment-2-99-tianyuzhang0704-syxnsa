@@ -9,6 +9,8 @@
 ### General Description
 
 Throughout our development process, we take the driver and the navigator's role alternatively. It can be shown in our commit history (see the overview of the commit example below).
+ <img src="/Screenshots/commit1.jpg" width="60%">
+<img src="/Screenshots/commit2.jpg" width="60%">
 
 ### Challenges Solved Together
 
@@ -100,6 +102,8 @@ We used SpringBootTest to run Integration Tests. Integration Test are needed for
 #### Test Report
 
 Jacoco is used to report the overall coverage of the unit test. On test branch, detailed report can be found on ```test_branch``` branch in a2/target/site/jacoco/index.html.
+
+ <img src="/Screenshots/JacocoReport.jpg" width="60%">
 
 #### Environments
 
