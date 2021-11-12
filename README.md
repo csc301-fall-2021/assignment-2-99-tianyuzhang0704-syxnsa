@@ -151,6 +151,12 @@ Documentations can be found on: https://documenter.getpostman.com/view/16194739/
 
 Request can be sent from Postman by clicking on "Run in Postman" button on the top right corner on the website. Note that https://csc301a2team99.herokuapp.com/query is requested using POST method with raw JSON body while https://csc301a2team99.herokuapp.com/upload is requested using POST method with form data. All the details and examples can be found in the documentation. Please strictly follow the descriptions for the input format.
 
+<img src="/Screenshots/api1.jpg" width="100%">
+<img src="/Screenshots/api2.jpg" width="100%">
+<img src="/Screenshots/query1.jpg" width="100%">
+<img src="/Screenshots/query2.jpg" width="100%">
+<img src="/Screenshots/query3.jpg" width="100%">
+<img src="/Screenshots/query4.jpg" width="100%">
 
 
 ### CICD
