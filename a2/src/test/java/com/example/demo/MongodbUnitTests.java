@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.mongodb.MongoUtils;
+import com.example.demo.Csv2JsonUtils;
 
 import java.util.*;
 import org.json.JSONObject;
@@ -30,7 +31,19 @@ class MongodbUnitTests {
 	@Test
 	void insert_test() {
 		MongoUtils mongoUtils = new MongoUtils();
-		// mongoUtils.insert();
+
+		Csv2JsonUtils csvUtils = new Csv2JsonUtils();
+
+        String[] keys = {"key1", "key2"};
+        List<String[]> stringsList = new ArrayList();
+        String[] values1 = {"val1", "val2"};
+        String[] values2 = {"val1", "val2"};
+        stringsList.add(values1);
+        stringsList.add(values2);
+        JSONObject[] jsons = csvUtils.csv2JSON(keys, stringsList, "Date", "1/1/2021");
+		for (int i = 0; i < jsons.length; i++) {
+			mongoUtils.insert(jsons[i], 0, "dailyreport");
+		}
 
 	}
 

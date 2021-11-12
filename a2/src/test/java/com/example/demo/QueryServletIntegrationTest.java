@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.springframework.mock.web.MockHttpServletRequest.setContent;
+// import org.springframework.mock.web.MockHttpServletRequest.setContent;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -107,10 +107,11 @@ public class QueryServletIntegrationTest {
         // request.addParameter("type", "1");
         // request.addParameter("returnData", "Active");
 
-        request.setContentType("application/json");
-        request.setContent(qf.getBytes(StandardCharsets.UTF_8));
+        // request.setContentType("application/json");
+        // request.setContent(qf.getBytes("UTF-8"));
 
-        queryServlet.doPost(request);
+        queryServlet.doPost(qf);
+        // queryServlet.doPost(request);
  
         // when(request.getParameter("search")).thenReturn(search_param.toString());
         // when(request.getParameter("dara")).thenReturn(data_param.toString());
