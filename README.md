@@ -2,8 +2,8 @@
 
 
 
-
 ## Pair Programming Process
+
 
 
 ### General Description
@@ -40,12 +40,13 @@ Throughout our development process, we take the driver and the navigator's role 
 
 | Team Member  | Role                                                         |
 | ------------ | ------------------------------------------------------------ |
-| Tianyu Zhang | Deployment, Servlet classes, Test classes, database          |
+| Tianyu Zhang | Deployment, CICD, Servlet classes, Test classes, database    |
 | Xinkai Jiang | Setup Java Spring Boot project, converting between csv files and JSON, Servlet classes, Test classes, database |
 
 
 
 ## Reflections and Evaluation
+
 
 
 ### Reflection on The Process
@@ -71,32 +72,85 @@ Overall, the process went well. Both of us had opportunities to write the code a
 ## Program Design
 
 
+
 ### API Design
 
-We decided to use two APIs. One is https://csc301a2team99.herokuapp.com/upload for 
+We decided to use two APIs. One is https://csc301a2team99.herokuapp.com/upload for uploading/updating csv files. Another is https://csc301a2team99.herokuapp.com/query for information query. We chose to have two APIs in total because we have two features to implement in this assignment: upload/update and query.
+
+We use the composition design pattern to build two api classes and make them easier to implement, change, test, and reuse. In this assignment, we need to achieve the upload and query functions for two types of data, daily report and time series. Since the query and upload functions for daily report and time series are very similar, we decided to only build two api classes, query and upload; and implement their functions separately. When clients send their request to our backend, we will automatically determine what type of data it is and analyse it. It makes it easier for us to add new kinds of components. And if we need to add some new type of data to our program, it won’t break the existing code.
 
 ### Backend Design
+
+We used Iterator as one backend design pattern. 
 
 
 
 ## Tests
 
 
+
 ### Unit Test
 
-We used JUnit to run unit tests. Since it is not a typical OOP program, for this part we mostly checked the methods (e.g. database methods, methods for converting between csv and JSON, and other helper methods). Jacoco is used to report the overall coverage of the unit test. On test branch, detailed report can be found on ```test``` branch in.
+We used JUnit to run unit tests. Since it is not a typical OOP program, for this part we mostly checked the methods (e.g. database methods, methods for converting between csv and JSON, and other helper methods).
 
 ### Integration Test
 
+We used SpringBootTest to run Integration Tests. Integration Test are needed for controller classes (i.e. QueryServlet class in QueryServlet.java and Upload Servlet class in UploadServlet.java).
 
+#### Test Report
+
+Jacoco is used to report the overall coverage of the unit test. On test branch, detailed report can be found on ```test_branch``` branch in a2/target/site/jacoco/index.html.
+
+#### Environments
+
+On ```main``` and ```develop``` branches, production environment is used, while on ```test_branch```, test environment is used (by environment we mean database environments). The environment used can be changed in MongoUtils.java by commenting out the environment that is NOT going to be used.
 
 
 
 ## API Documentation
 
 
+
+### API Notice
+
+The APIs are deployed to Heroku at  https://csc301a2team99.herokuapp.com.
+
+Since Heroku has time limits, if large files are needed to be uploaded, it is recommended to use localhost, or there will be 503 HTTP error with heroku error h12. To run it locally, please follow the instruction below:
+
+```bash
+# go to backend folder
+
+cd a2
+
+
+
+# install dependencies
+
+mvn clean install
+
+
+
+# run spring boot
+
+mvn spring-boot:run
+```
+
+The local APIs will be at [**http://localhost:8080/upload**](http://localhost:8080/upload) and [**http://localhost:8080/query**](http://localhost:8080/query).
+
 ### API Documentation Link
 
 Documentations can be found on: https://documenter.getpostman.com/view/16194739/UVC3kTUw
 
-Request can be sent from Postman by clicking on "Run in Postman" button on the top right corner on the website. Note that https://csc301a2team99.herokuapp.com/query is requested using POST method with raw JSON body while https://csc301a2team99.herokuapp.com/upload is requested using POST method with form data. All the details and examples can be found in the documentation.
+Request can be sent from Postman by clicking on "Run in Postman" button on the top right corner on the website. Note that https://csc301a2team99.herokuapp.com/query is requested using POST method with raw JSON body while https://csc301a2team99.herokuapp.com/upload is requested using POST method with form data. All the details and examples can be found in the documentation. Please strictly follow the descriptions for the input format.
+
+
+
+### CICD
+
+#### CI
+
+CircleCI is used for CI.
+
+#### CD
+
+The APIs are auto deployed on Heroku.
