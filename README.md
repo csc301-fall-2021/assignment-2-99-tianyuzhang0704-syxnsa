@@ -9,8 +9,8 @@
 ### General Description
 
 Throughout our development process, we take the driver and the navigator's role alternatively. It can be shown in our commit history (see the overview of the commit example below).
- <img src="/Screenshots/commit1.jpg" width="60%">
-<img src="/Screenshots/commit2.jpg" width="60%">
+<img src="/Screenshots/commit1.jpg" width="100%">
+<img src="/Screenshots/commit2.jpg" width="100%">
 
 ### Challenges Solved Together
 
@@ -108,6 +108,8 @@ Jacoco is used to report the overall coverage of the unit test. On test branch, 
 #### Environments
 
 On ```main``` and ```develop``` branches, production environment is used, while on ```test_branch```, test environment is used (by environment we mean database environments). The environment used can be changed in MongoUtils.java by commenting out the environment that is NOT going to be used.
+
+<img src="/Screenshots/environment.jpg" width="100%">
 
 
 
