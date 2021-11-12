@@ -157,7 +157,7 @@ Request can be sent from Postman by clicking on "Run in Postman" button on the t
 <img src="/Screenshots/query2.jpg" width="100%">
 <img src="/Screenshots/query3.jpg" width="100%">
 <img src="/Screenshots/query4.jpg" width="100%">
-
+<img src="/Screenshots/upload.jpg" width="100%">
 
 ### CICD
 
