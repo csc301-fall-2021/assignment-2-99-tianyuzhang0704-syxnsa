@@ -152,12 +152,13 @@ public class MongoUtils {
 
 		}
 
-		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size()) {
+		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size() || confirmed.size() == 0) {
 			JSONObject error = new JSONObject();
 			error.put("error", "some data is missing.");
 			arr.add(error);
 			return arr;
 		}
+	
 
 		for (int i = 0; i < confirmed.get(days.get(0)).size(); i++) {
 			JSONObject item = new JSONObject();
