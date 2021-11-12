@@ -16,7 +16,9 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoUtils {
+	// test environment
 	private String dbUrl = "mongodb+srv://cRERQ6ZQmVZ7B0T4:cRERQ6ZQmVZ7B0T4@cluster0.rikfx.mongodb.net/covid19?retryWrites=true&w=majority";
+	// production environment
 	// private String dbUrl = "mongodb+srv://123:123@cluster0.os4ea.mongodb.net/covid19?retryWrites=true&w=majority";
 	
 	public MongoUtils() {
