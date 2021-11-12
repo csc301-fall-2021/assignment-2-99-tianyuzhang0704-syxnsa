@@ -83,7 +83,9 @@ We use the composition design pattern to build two api classes and make them eas
 
 ### Backend Design
 
-We used Iterator as one backend design pattern. 
+We used Iterator as one backend design pattern. ```MongoCursor<Document>``` cursor is Iterator, which allows us to access each element in the query result from the database without directly accessing the explicit elements, which better encapsulates the individual elements.
+
+We also used Clean Architecture. Even though it is not a typical OOP project, our servlet classes are still controllers. The MongoUtils class in MongoUtils.java is the gateway. We can still make each layer clean and less dependent on the other ones which does not necessarily need direct denpendency.
 
 
 
