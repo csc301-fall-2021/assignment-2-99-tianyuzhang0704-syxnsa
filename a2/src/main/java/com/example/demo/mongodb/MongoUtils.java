@@ -42,8 +42,13 @@ public class MongoUtils {
 				 String date = temp.getString("Date");
 				 if(days.contains(date)) {
 					 String var = temp.getString(returnData);
-					 item.put(returnData, var);
-					 item.put("Date", date);
+					 if(var != null) {
+						item.put(returnData, var);
+						item.put("Date", date);
+					 }
+					 else {
+						 
+					 }				 
 				 }
 				 
 			 }
@@ -59,7 +64,13 @@ public class MongoUtils {
 
 			 if(item.length() != 0) {
 				 arr.add(item);
-			 }	 
+			 }
+		 }
+		 if(arr.size() == 0) {
+			 JSONObject error = new JSONObject();
+			 error.put("error", "cannot find any data, please check your input.");
+			 arr.add(error);
+			 return arr;
 		 }
 		 return arr;
 //         JSONObject json = new JSONObject();
@@ -102,6 +113,7 @@ public class MongoUtils {
 		while (cursor.hasNext()) {
 			Document temp = cursor.next();
 			String type = temp.getString("Return_Data");
+
 			if(type.equals("Confirmed")) {
 				for(String day: days) {
 					if(!confirmed.containsKey(day)) {
@@ -140,12 +152,13 @@ public class MongoUtils {
 
 		}
 
-		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size()) {
+		if(confirmed.size() != deaths.size() || confirmed.size() != recovered.size() || deaths.size() != recovered.size() || confirmed.size() == 0) {
 			JSONObject error = new JSONObject();
 			error.put("error", "some data is missing.");
 			arr.add(error);
 			return arr;
 		}
+	
 
 		for (int i = 0; i < confirmed.get(days.get(0)).size(); i++) {
 			JSONObject item = new JSONObject();
