@@ -165,6 +165,8 @@ Request can be sent from Postman by clicking on "Run in Postman" button on the t
 
 CircleCI is used for CI.
 
+<img src="/Screenshots/circleci.jpg" width="100%">
+
 #### CD
 
 The APIs are auto deployed on Heroku.
